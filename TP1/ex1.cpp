@@ -51,6 +51,10 @@ int main(int argc, char** argv )
 
     createTrackbar( trackbar_value, "Display Binary Image", &threshold_Value, max_Threshold_Value, image_With_Threshold );
 
+    waitKey(0);
+    imwrite( "image_Gray.jpg", image_Gray );
+    imwrite( "image_Binary.jpg", image_Binary );
+
 
     while(1)
         waitKey(0);
