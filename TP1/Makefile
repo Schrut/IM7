@@ -111,44 +111,44 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named DisplayImage
+# Target rules for targets named ex2
 
 # Build rule for target.
-DisplayImage: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 DisplayImage
-.PHONY : DisplayImage
+ex2: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ex2
+.PHONY : ex2
 
 # fast build rule for target.
-DisplayImage/fast:
-	$(MAKE) -f CMakeFiles/DisplayImage.dir/build.make CMakeFiles/DisplayImage.dir/build
-.PHONY : DisplayImage/fast
+ex2/fast:
+	$(MAKE) -f CMakeFiles/ex2.dir/build.make CMakeFiles/ex2.dir/build
+.PHONY : ex2/fast
 
-DisplayImage.o: DisplayImage.cpp.o
+ex2.o: ex2.cpp.o
 
-.PHONY : DisplayImage.o
+.PHONY : ex2.o
 
 # target to build an object file
-DisplayImage.cpp.o:
-	$(MAKE) -f CMakeFiles/DisplayImage.dir/build.make CMakeFiles/DisplayImage.dir/DisplayImage.cpp.o
-.PHONY : DisplayImage.cpp.o
+ex2.cpp.o:
+	$(MAKE) -f CMakeFiles/ex2.dir/build.make CMakeFiles/ex2.dir/ex2.cpp.o
+.PHONY : ex2.cpp.o
 
-DisplayImage.i: DisplayImage.cpp.i
+ex2.i: ex2.cpp.i
 
-.PHONY : DisplayImage.i
+.PHONY : ex2.i
 
 # target to preprocess a source file
-DisplayImage.cpp.i:
-	$(MAKE) -f CMakeFiles/DisplayImage.dir/build.make CMakeFiles/DisplayImage.dir/DisplayImage.cpp.i
-.PHONY : DisplayImage.cpp.i
+ex2.cpp.i:
+	$(MAKE) -f CMakeFiles/ex2.dir/build.make CMakeFiles/ex2.dir/ex2.cpp.i
+.PHONY : ex2.cpp.i
 
-DisplayImage.s: DisplayImage.cpp.s
+ex2.s: ex2.cpp.s
 
-.PHONY : DisplayImage.s
+.PHONY : ex2.s
 
 # target to generate assembly for a file
-DisplayImage.cpp.s:
-	$(MAKE) -f CMakeFiles/DisplayImage.dir/build.make CMakeFiles/DisplayImage.dir/DisplayImage.cpp.s
-.PHONY : DisplayImage.cpp.s
+ex2.cpp.s:
+	$(MAKE) -f CMakeFiles/ex2.dir/build.make CMakeFiles/ex2.dir/ex2.cpp.s
+.PHONY : ex2.cpp.s
 
 # Help Target
 help:
@@ -158,10 +158,10 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... DisplayImage"
-	@echo "... DisplayImage.o"
-	@echo "... DisplayImage.i"
-	@echo "... DisplayImage.s"
+	@echo "... ex2"
+	@echo "... ex2.o"
+	@echo "... ex2.i"
+	@echo "... ex2.s"
 .PHONY : help
 
 

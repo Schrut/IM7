@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/florian/Bureau/git/IM7/TP1/DisplayImage.cpp
+/home/florian/Bureau/git/IM7/TP1/ex2.cpp
 stdio.h
 -
 opencv2/opencv.hpp
