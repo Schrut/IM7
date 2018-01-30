@@ -4,9 +4,9 @@
 
 
 
-Mat image;
-Mat image_Gray;
-Mat image_Binary;
+CvMat image;
+CvMat image_Gray;
+CvMat image_Binary;
 
 int threshold_Value = 0;
 int max_Threshold_Value = 255;

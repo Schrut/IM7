@@ -1,3 +1,0 @@
-/home/florian/Bureau/git/IM7/TP1/CMakeFiles/rebuild_cache.dir
-/home/florian/Bureau/git/IM7/TP1/CMakeFiles/edit_cache.dir
-/home/florian/Bureau/git/IM7/TP1/CMakeFiles/DisplayImage.dir
