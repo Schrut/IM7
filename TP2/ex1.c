@@ -3,7 +3,7 @@
 #include <opencv/cvwimage.h>
 #include <opencv/highgui.h>
 #include "opencv2/imgproc/imgproc_c.h"
-
+#include "opencv2/imgcodecs/imgcodecs_c.h"
 
 
 
@@ -30,30 +30,18 @@
     }
 }*/
 
-int main(int argc, char** argv )
+int main()
 {
 
-    IplImage *image = cvLoadImage("image.jpg");
-    /*if ( argc != 2 )
-    {
-        printf("usage: DisplayImage.out <Image_Path>\n");
-        return -1;
-    }
+    IplImage* image = cvLoadImage("image.jpg",0);
 
 
-    Mat struct_element = getStructuringElement( MORPH_CROSS, Size(2*3+1,2*3+1), Point( 3, 3 ) );
 
-    image = imread( argv[1], 1 );
+    IplConvKernel* struct_element = cvCreateStructuringElementEx(3,3,-1,-1,1);
 
-    if ( !image.data )
-    {
-      printf("No image data \n");
-      return -1;
-    }
+    /* cvtColor(image, image_binary, cv::COLOR_BGR2GRAY);
 
-    cvtColor(image, image_binary, cv::COLOR_BGR2GRAY);
-
-    threshold( image_binary, image_binary, 133, 255,0);
+    cvThreshold( image_binary, image_binary, 133, 255,0);
 
     my_erode (image_binary, struct_element);
 
@@ -80,7 +68,7 @@ int main(int argc, char** argv )
 
 
     while(1)
-        cvwaitKey(0);
+        cvWaitKey(0);
 
 
     return 0;
