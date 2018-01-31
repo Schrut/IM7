@@ -34,42 +34,18 @@ int main()
 {
 
     IplImage* image = cvLoadImage("image.jpg",0);
+    IplImage* image_binary = image;
 
+    //IplConvKernel* struct_element = cvCreateStructuringElementEx(3,3,-1,-1,1);
 
+    cvThreshold(image, image_binary, 133, 255, 0);
 
-    IplConvKernel* struct_element = cvCreateStructuringElementEx(3,3,-1,-1,1);
-
-    /* cvtColor(image, image_binary, cv::COLOR_BGR2GRAY);
-
-    cvThreshold( image_binary, image_binary, 133, 255,0);
-
-    my_erode (image_binary, struct_element);
-
-    dilate( image, image_dilate, Mat(), Point(-1, -1), 1 );
-    erode( image, image_erode, Mat(), Point(-1, -1), 1 );
-
-    dilate( image_erode, image_open, Mat(), Point(-1, -1), 1 );
-    erode( image_dilate, image_close, Mat(), Point(-1, -1), 1 );
-
-    namedWindow("Display Image", WINDOW_AUTOSIZE );
-    imshow("Display Image", image);
-
-    namedWindow("Display Dilate Image", WINDOW_AUTOSIZE );
-    imshow("Display Dilate Image", image_dilate);
-
-    namedWindow("Display Erode Image", WINDOW_AUTOSIZE );
-    imshow("Display Erode Image", image_erode);
-
-    namedWindow("Display Open Image", WINDOW_AUTOSIZE );
-    imshow("Display Open Image", image_open);*/
+    /*my_erode (image_binary, struct_element);*/
 
     cvNamedWindow("Display Close Image", CV_WINDOW_AUTOSIZE );
-    cvShowImage("Display Close Image", image);
-
+    cvShowImage("Display Close Image", image_binary);
 
     while(1)
         cvWaitKey(0);
-
-
     return 0;
 }
