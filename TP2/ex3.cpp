@@ -127,6 +127,7 @@ int labelling(Mat image_in, Mat map)
 	int nb_label=0;
 	int max_, min_;
 	int i, x, y, l, t;
+
 	
 	int* label = new int[5];
 	for (i=0 ; i < 5 ; i++)
@@ -139,37 +140,38 @@ int labelling(Mat image_in, Mat map)
 			t = 0;
 			if (image_in.at<uchar>(x, y) != 0)
 			{
-				if (y - 1 < 0) l = map.at<uchar>(x, y - 1);
-				if (x - 1 < 0) t = map.at<uchar>(x - 1, y);
+				if (y - 1 >= 0) l = map.at<uchar>(x, y - 1);
+				if (x - 1 >= 0) t = map.at<uchar>(x - 1, y);
 
 				if (l == 0 && t == 0)
 				{
 					map.at<uchar>(x, y) = label[nb_label];
 					nb_label++;
-				std::cout<< x << "  " <<y << std::endl;
 				}
-				if (l == 0 && t > 0)
-					map.at<uchar>(x, y) = t;
-
-				if (l > 0 && t == 0)
-					map.at<uchar>(x, y) = l;
-
-				if (l == t )
-					map.at<uchar>(x, y) = l;
-
-				if (l > 0 && t > 0)
-				{
-					min_ = min(l,t);
-					max_ = max(l,t);
-					map.at<uchar>(x, y) = min_;
-					nb_label --;
-					for (i = 0 ; i < (x*cols+y) ; i++)
-						{
-							if (map.at<uchar>(i) == max_)
-								map.at<uchar>(i) = min_;
-						}
-				}
-			}
+        else 
+        {
+          if (l == 0 && t > 0)
+            map.at<uchar>(x, y) = t;
+          else 
+          if (l > 0 && t == 0)
+            map.at<uchar>(x, y) = l;
+          else
+          if (l == t )
+            map.at<uchar>(x, y) = l;
+          else
+          {
+            min_ = min(l,t);
+            max_ = max(l,t);
+            map.at<uchar>(x, y) = min_;
+            nb_label --;
+            for (i = 0 ; i < (x*cols+y) ; i++)
+              {
+                if (map.at<uchar>(i) == max_)
+                  map.at<uchar>(i) = min_;
+              }
+          }
+        }
+        }
 		}
 	delete []label;
 	return nb_label;
@@ -192,28 +194,36 @@ int main(int argc, char** argv )
   
 	my_structuring_element = getStructuringElement ( MORPH_RECT, Size(3,3) );
 
-/*  Mat erode_image;
+  Mat erode_image;
+  int i;
+	/*
   erode_image = my_erode (image);
   for(i = 0 ; i < 28 ; i++)
     erode_image = my_erode (erode_image);
   for(i = 0 ; i < 29 ; i++)
-    erode_image = my_dilate (erode_image);
+    map = my_dilate (map);*/
 
 
-  namedWindow("Display my erode Image", WINDOW_AUTOSIZE );
-  imshow("Display my erode Image", erode_image);*/
+  map = image.clone();
+	erode_image = image.clone();
 
-	map = image.clone();
-	int i;
-	for (i = 0; i < map.rows * map.cols;i++)
-		map.at<uchar>(i) = 0;
 
-	int nbforme;
 
-	nbforme = labelling(image, map);
-	printf("%d\n",nbforme);
-	namedWindow("Display my erode Image", WINDOW_AUTOSIZE);
-	imshow("Display my erode Image", map);
+	int nbforme = 0;
+	int nberode = 0;
+
+	while (nbforme != 4)
+	{
+		for (i = 0; i < map.rows * map.cols; i++)
+				map.at<uchar>(i) = 0;
+		nbforme = labelling(erode_image, map);
+		erode_image = my_erode(erode_image);
+		nberode++;
+	}
+
+
+	namedWindow("Display Image", WINDOW_AUTOSIZE);
+	imshow("Display Image", map);
 
 	printf("fin\n");
 
