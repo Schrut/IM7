@@ -183,10 +183,12 @@ Mat conditional_dilate(Mat image_in, Mat map, Mat my_structuring_element)
   int cols = image_in.cols;
   int rows = image_in.rows;
 
-  Mat image_out = image_in.clone();
+	Mat image_out = image_in.clone();
   uchar max;
+	for (i = 0; i < rows * cols; i++)
+		map.at<uchar>(i) = 0;
 
-  for (y = 0; y < rows - 1; y++)
+	for (y = 0; y < rows - 1; y++)
     for (x = 0; x < cols - 1; x++)
     {
       max = (uchar)0;
@@ -197,16 +199,16 @@ Mat conditional_dilate(Mat image_in, Mat map, Mat my_structuring_element)
           if (is_inside(y + i, x + j, cols, rows))
           {
             if (my_structuring_element.at<uchar>(k) == 1)
-              if (image_in.at<uchar>(y + i, x + j) > max)
-                max = image_in.at<uchar>(y + i, x + j);
+							if (image_in.at<uchar>(y + i, x + j) > max && map.at<uchar>(y + i, x + j) == 255 )
+								max = image_in.at<uchar>(y + i, x + j);
           }
           k++;
         }
-          if (map.at<uchar>(x,y) == 255 && max > 0)
-          {
-           image_out.at<uchar>(y, x) = max; 
-           map.at<uchar>(x,y) = 0;
-          }
+        if (map.at<uchar>(x,y) == 255 && max > 0)
+        {
+          image_out.at<uchar>(y, x) = max; 
+          map.at<uchar>(x,y) = 0;
+        }
     }
   return image_out;
 }
@@ -253,13 +255,13 @@ int main(int argc, char** argv )
     nbforme = labelling(erode_image, map);
 	}
 
+
   for (i=0; i < nberode; i++)
-    erode_image = conditional_dilate(erode_image, image, my_structuring_element);
+		map = conditional_dilate(map, image, my_structuring_element);
 
   namedWindow("Display Image", WINDOW_AUTOSIZE);
-	imshow("Display Image", erode_image);
-
-  printf("fin %d\n", nbforme);
+	imshow("Display Image", map);
+	printf("fin %d\n", nbforme);
 
   while(1)
       waitKey(0);
