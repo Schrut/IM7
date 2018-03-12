@@ -131,7 +131,7 @@ int labelling(Mat image_in, Mat map)
 	
 	int* label = new int[5];
 	for (i=0 ; i < 5 ; i++)
-		label[i] = i*50;
+		label[i] = i*50 + 25;
 
 	for (x = 0 ; x < rows ; x++)
 		for (y = 0; y < cols; y++)
@@ -177,6 +177,40 @@ int labelling(Mat image_in, Mat map)
 	return nb_label;
 }
 
+Mat conditional_dilate(Mat image_in, Mat map, Mat my_structuring_element)
+{
+  int x, y, i, j, k;
+  int cols = image_in.cols;
+  int rows = image_in.rows;
+
+  Mat image_out = image_in.clone();
+  uchar max;
+
+  for (y = 0; y < rows - 1; y++)
+    for (x = 0; x < cols - 1; x++)
+    {
+      max = (uchar)0;
+      k = 0;
+      for (j = -1; j <= 1; j++)
+        for (i = -1; i <= 1; i++)
+        {
+          if (is_inside(y + i, x + j, cols, rows))
+          {
+            if (my_structuring_element.at<uchar>(k) == 1)
+              if (image_in.at<uchar>(y + i, x + j) > max)
+                max = image_in.at<uchar>(y + i, x + j);
+          }
+          k++;
+        }
+          if (map.at<uchar>(x,y) == 255 && max > 0)
+          {
+           image_out.at<uchar>(y, x) = max; 
+           map.at<uchar>(x,y) = 0;
+          }
+    }
+  return image_out;
+}
+
 int main(int argc, char** argv )
 {
   if ( argc != 2 )
@@ -196,38 +230,38 @@ int main(int argc, char** argv )
 
   Mat erode_image;
   int i;
-	/*
+	
   erode_image = my_erode (image);
-  for(i = 0 ; i < 28 ; i++)
+  /*for(i = 0 ; i < 28 ; i++)
     erode_image = my_erode (erode_image);
   for(i = 0 ; i < 29 ; i++)
     map = my_dilate (map);*/
 
-
-  map = image.clone();
 	erode_image = image.clone();
+  map = erode_image.clone();
 
-
-
-	int nbforme = 0;
+  int nbforme = 0;
 	int nberode = 0;
 
-	while (nbforme != 4)
+	while (nbforme != 3)
 	{
 		for (i = 0; i < map.rows * map.cols; i++)
 				map.at<uchar>(i) = 0;
-		nbforme = labelling(erode_image, map);
 		erode_image = my_erode(erode_image);
 		nberode++;
+    map = erode_image.clone();
+    nbforme = labelling(erode_image, map);
 	}
 
+  for (i=0; i < nberode; i++)
+    erode_image = conditional_dilate(erode_image, image, my_structuring_element);
 
-	namedWindow("Display Image", WINDOW_AUTOSIZE);
-	imshow("Display Image", map);
+  namedWindow("Display Image", WINDOW_AUTOSIZE);
+	imshow("Display Image", erode_image);
 
-	printf("fin\n");
+  printf("fin %d\n", nbforme);
 
-	while(1)
+  while(1)
       waitKey(0);
   return 0;
 }
