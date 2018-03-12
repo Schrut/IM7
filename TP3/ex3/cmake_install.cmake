@@ -1,4 +1,4 @@
-# Install script for directory: /home/florian/Bureau/git/IM7/TP3
+# Install script for directory: /home/florian/Bureau/git/IM7/TP3/ex3
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/florian/Bureau/git/IM7/TP3/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/florian/Bureau/git/IM7/TP3/ex3/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

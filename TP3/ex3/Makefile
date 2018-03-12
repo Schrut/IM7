@@ -48,10 +48,10 @@ RM = /usr/local/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/florian/Bureau/git/IM7/TP3
+CMAKE_SOURCE_DIR = /home/florian/Bureau/git/IM7/TP3/ex3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/florian/Bureau/git/IM7/TP3
+CMAKE_BINARY_DIR = /home/florian/Bureau/git/IM7/TP3/ex3
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/florian/Bureau/git/IM7/TP3/CMakeFiles /home/florian/Bureau/git/IM7/TP3/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/florian/Bureau/git/IM7/TP3/ex3/CMakeFiles /home/florian/Bureau/git/IM7/TP3/ex3/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/florian/Bureau/git/IM7/TP3/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/florian/Bureau/git/IM7/TP3/ex3/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,44 +111,44 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named ex1
+# Target rules for targets named ex3
 
 # Build rule for target.
-ex1: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 ex1
-.PHONY : ex1
+ex3: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ex3
+.PHONY : ex3
 
 # fast build rule for target.
-ex1/fast:
-	$(MAKE) -f CMakeFiles/ex1.dir/build.make CMakeFiles/ex1.dir/build
-.PHONY : ex1/fast
+ex3/fast:
+	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/build
+.PHONY : ex3/fast
 
-ex1.o: ex1.cpp.o
+ex3.o: ex3.cpp.o
 
-.PHONY : ex1.o
+.PHONY : ex3.o
 
 # target to build an object file
-ex1.cpp.o:
-	$(MAKE) -f CMakeFiles/ex1.dir/build.make CMakeFiles/ex1.dir/ex1.cpp.o
-.PHONY : ex1.cpp.o
+ex3.cpp.o:
+	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/ex3.cpp.o
+.PHONY : ex3.cpp.o
 
-ex1.i: ex1.cpp.i
+ex3.i: ex3.cpp.i
 
-.PHONY : ex1.i
+.PHONY : ex3.i
 
 # target to preprocess a source file
-ex1.cpp.i:
-	$(MAKE) -f CMakeFiles/ex1.dir/build.make CMakeFiles/ex1.dir/ex1.cpp.i
-.PHONY : ex1.cpp.i
+ex3.cpp.i:
+	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/ex3.cpp.i
+.PHONY : ex3.cpp.i
 
-ex1.s: ex1.cpp.s
+ex3.s: ex3.cpp.s
 
-.PHONY : ex1.s
+.PHONY : ex3.s
 
 # target to generate assembly for a file
-ex1.cpp.s:
-	$(MAKE) -f CMakeFiles/ex1.dir/build.make CMakeFiles/ex1.dir/ex1.cpp.s
-.PHONY : ex1.cpp.s
+ex3.cpp.s:
+	$(MAKE) -f CMakeFiles/ex3.dir/build.make CMakeFiles/ex3.dir/ex3.cpp.s
+.PHONY : ex3.cpp.s
 
 # Help Target
 help:
@@ -158,10 +158,10 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... ex1"
-	@echo "... ex1.o"
-	@echo "... ex1.i"
-	@echo "... ex1.s"
+	@echo "... ex3"
+	@echo "... ex3.o"
+	@echo "... ex3.i"
+	@echo "... ex3.s"
 .PHONY : help
 
 
