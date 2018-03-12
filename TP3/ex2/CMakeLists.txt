@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.8)
+project( ex3 )
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( ex3 ex3.cpp )
+target_compile_options( ex3 PUBLIC -Wall)
+target_link_libraries( ex3 ${OpenCV_LIBS} )
