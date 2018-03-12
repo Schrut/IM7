@@ -7,11 +7,22 @@ using namespace cv;
 Mat image;
 Mat binary_image;
 Mat map;
-
-
 Mat my_structuring_element;
 
+
 int max_threshold_value = 255;
+
+
+int C1[9] = { 1, 1, 1, -1, 1, -1, 0, 0, 0 };
+int C2[9] = { 0, 0, 0, -1, 1, -1, 1, 1, 1 };
+int C3[9] = { 1, -1, 0, 1, 1, 0, 1, -1, 0 };
+int C4[9] = { 0, -1, 1, 0, 1, 1, 0, -1, 1 };
+int C5[9] = { -1, 1, -1, 1, 1, 0, -1, 0,0 };
+int C6[9] = { -1, 1, -1, 0, 1, 1, 0, 0, -1};
+int C7[9] = { 0, 0, -1, 0, 1, 1, -1, 1, -1};
+int C8[9] = { -1, 0, 0, 1, 1, 0, -1, 1, -1};
+
+int *Cn[8]= {C1, C2, C3, C4, C5, C6, C7, C8};
 
 int is_inside(int posx, int posy, int cols, int rows){
   if (posx < 0 || posx > cols)
@@ -214,6 +225,55 @@ Mat conditional_dilate(Mat image_in, Mat map, Mat my_structuring_element)
   return image_out;
 }
 
+Mat toutouRien (Mat image_in, int **Cn_)
+{
+
+	int k;
+	int is_true;
+
+
+	Mat image_out;
+	image_out = image_in.clone();
+	for (int i = 0; i < image_in.cols * image_in.rows ; i++)
+		image_out.at<uchar>(i) = 0;
+
+	for (int x = 0; x < image_in.rows; x++)
+	{
+		for (int y = 0; y < image_in.cols; y++)
+		{
+			for (int n_c = 0; n_c < 8; n_c++)
+			{
+				k = 0;
+				is_true = 1;
+				for (int i = -1; i <= 1; i++)
+				{
+					for (int j = -1; j <= 1; j++)
+					{
+
+						if (is_inside(x + i, y + j, image_in.cols, image_in.rows))
+						{
+							if (Cn[n_c][k] != -1)
+							{
+								if ( (Cn[n_c][k] == 1 && image_in.at<uchar>(x + i, y + j) == 0 )|| (Cn[n_c][k] == 0 && image_in.at<uchar>(x + i, y + j) != 0))
+								{
+									is_true = 0;
+									break;
+								}
+							}
+						}
+						k++;
+					}
+				}
+				if (is_true)
+					image_out.at<uchar>(x,y) = 255;
+				else
+					is_true = 1;
+			}
+		}
+	}
+	return image_out;
+}
+
 int main(int argc, char** argv )
 {
   if ( argc != 2 )
@@ -229,40 +289,11 @@ int main(int argc, char** argv )
     return -1;
   }
   
-	my_structuring_element = getStructuringElement ( MORPH_RECT, Size(3,3) );
-
-  Mat erode_image;
-  int i;
-	
-  erode_image = my_erode (image);
-  /*for(i = 0 ; i < 28 ; i++)
-    erode_image = my_erode (erode_image);
-  for(i = 0 ; i < 29 ; i++)
-    map = my_dilate (map);*/
-
-	erode_image = image.clone();
-  map = erode_image.clone();
-
-  int nbforme = 0;
-	int nberode = 0;
-
-	while (nbforme != 3)
-	{
-		for (i = 0; i < map.rows * map.cols; i++)
-				map.at<uchar>(i) = 0;
-		erode_image = my_erode(erode_image);
-		nberode++;
-    map = erode_image.clone();
-    nbforme = labelling(erode_image, map);
-	}
-
-
-  for (i=0; i < nberode; i++)
-		map = conditional_dilate(map, image, my_structuring_element);
+	image = toutouRien(image, Cn);
 
   namedWindow("Display Image", WINDOW_AUTOSIZE);
-	imshow("Display Image", map);
-	printf("fin %d\n", nbforme);
+	imshow("Display Image", image);
+	printf("fin\n");
 
   while(1)
       waitKey(0);
