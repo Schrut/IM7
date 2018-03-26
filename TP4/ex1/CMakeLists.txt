@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.8)
+project( ex1 )
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( ex1 ex1.cpp )
+target_compile_options( ex1 PUBLIC -Wall)
+target_link_libraries( ex1 ${OpenCV_LIBS} )

@@ -58,8 +58,6 @@ Mat diff_sym (Mat image_a, Mat image_b)
 				image_scd.at<uchar>(i, j) = 0;
 		}
 	}
-
-
 	for (int i = 0; i < image_a.rows; i++)
 	{
 		for (int j = 0; j < image_a.cols; j++)
@@ -67,10 +65,6 @@ Mat diff_sym (Mat image_a, Mat image_b)
 			image_out.at<uchar>(i, j) = image_first.at<uchar>(i, j) - image_scd.at<uchar>(i, j);
 		}
 	}
-
-
-	
-
 		return image_out;
 }
 
@@ -129,7 +123,7 @@ int main(int argc, char** argv )
 {
   if ( argc != 2 )
   {
-      printf("usage: DisplayImage.out <Image_Path>\n");
+      printf("usage: ./ex3 <Image_Path>\n");
       return -1;
   }
   image = imread( argv[1], 0 );
@@ -141,7 +135,7 @@ int main(int argc, char** argv )
   }
   
 	Mat image1 = image.clone();
-for (int i = 0 ; i < 20 ; i++)
+for (int i = 0 ; i < 50 ; i++)
 	image = toutouRien(image, Cn);
 
 	//image1 = diff_sym(image1, image);
