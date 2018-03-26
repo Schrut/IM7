@@ -27,43 +27,40 @@ int main(int argc, char** argv )
     return -1;
   }
 
-  Canny(image, canny_image,100, 150, 3);
+  int histSize = 256;
+  float range[] = {0, 256};
+  const float *histRange = {range};
 
-  findContours(canny_image, contours, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+  bool uniform = true;
+  bool accumulate = false;
 
-/*  Mat drawing = Mat::zeros(canny_image.size(), CV_8UC3);
-  for (int i = 0; i < contours.size(); i++)
+  Mat im_hist;
+
+  calcHist(&image, 1, 0, Mat(), im_hist, 1, &histSize, &histRange, uniform, accumulate);
+
+  // Draw the histograms for B, G and R
+  int hist_w = 512;
+  int hist_h = 400;
+  int bin_w = cvRound((double)hist_w / histSize);
+
+  Mat histImage(hist_h, hist_w, CV_8UC3, Scalar(0, 0, 0));
+
+  // Normalize the result to [ 0, histImage.rows ]
+  normalize(im_hist, im_hist, 0, histImage.rows, NORM_MINMAX, -1, Mat());
+
+  // Draw for each channel
+  for (int i = 1; i < histSize; i++)
   {
-    Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-    drawContours(drawing, contours, i, color);
-  }*/
-
-  /// Approximate contours to polygons + get bounding rects and circles
-  vector<vector<Point> > contours_poly(contours.size());
-  vector<Rect> boundRect(contours.size());
-  vector<Point2f> center(contours.size());
-  vector<float> radius(contours.size());
-
-  for (int i = 0; i < contours.size(); i++)
-  {
-    approxPolyDP(Mat(contours[i]), contours_poly[i], 3, true);
-    boundRect[i] = boundingRect(Mat(contours_poly[i]));
-  }
-
-  /// Draw polygonal contour + bonding rects + circles
-  Mat drawing = Mat::zeros(canny_image.size(), CV_8UC3);
-  for (int i = 0; i < contours.size(); i++)
-  {
-    Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-    drawContours(drawing, contours_poly, i, color, 1, 8, vector<Vec4i>(), 0, Point());
-    rectangle(drawing, boundRect[i].tl(), boundRect[i].br(), color);
+    line(histImage, Point(bin_w * (i - 1), hist_h - cvRound(im_hist.at<float>(i - 1))),
+         Point(bin_w * (i), hist_h - cvRound(im_hist.at<float>(i))),
+         Scalar(50, 100, 200), 2, 8, 0);
   }
 
   namedWindow("Display Image", WINDOW_AUTOSIZE);
-  imshow("Display Image", drawing);
+  imshow("Display Image", histImage);
   printf("fin\n");
 
-  while(1)
-      waitKey(0);
+  while (1)
+    waitKey(0);
   return 0;
 }
