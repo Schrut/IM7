@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.8)
+project( snake-source )
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+add_executable( snake-source snake-source.cpp )
+target_compile_options( snake-source PUBLIC -Wall)
+target_link_libraries( snake-source ${OpenCV_LIBS} )

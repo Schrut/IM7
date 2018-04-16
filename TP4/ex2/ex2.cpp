@@ -38,6 +38,8 @@ int main(int argc, char** argv )
 
   calcHist(&image, 1, 0, Mat(), im_hist, 1, &histSize, &histRange, uniform, accumulate);
 
+  kmeans(Z,K,None,criteria,10,cv2.KMEANS_RANDOM_CENTERS);
+
   // Draw the histograms for B, G and R
   int hist_w = 512;
   int hist_h = 400;

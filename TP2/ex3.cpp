@@ -16,7 +16,7 @@ int max_threshold_value = 255;
 int is_inside(int posx, int posy, int cols, int rows){
   if (posx < 0 || posx > cols)
     return 0;
-  if (posy < 0 || posx > rows)
+  if (posy < 0 || posy > rows)
     return 0;
 
   return 1;
@@ -180,36 +180,52 @@ int labelling(Mat image_in, Mat map)
 Mat conditional_dilate(Mat image_in, Mat map, Mat my_structuring_element)
 {
   int x, y, i, j, k;
+	int flag;
+	int nbdilate=0;
   int cols = image_in.cols;
   int rows = image_in.rows;
 
 	Mat image_out = image_in.clone();
-  uchar max;
-	for (i = 0; i < rows * cols; i++)
-		map.at<uchar>(i) = 0;
+	Mat tmp_image;
+	uchar max;
 
-	for (y = 0; y < rows - 1; y++)
-    for (x = 0; x < cols - 1; x++)
-    {
-      max = (uchar)0;
-      k = 0;
-      for (j = -1; j <= 1; j++)
-        for (i = -1; i <= 1; i++)
-        {
-          if (is_inside(y + i, x + j, cols, rows))
-          {
-            if (my_structuring_element.at<uchar>(k) == 1)
-							if (image_in.at<uchar>(y + i, x + j) > max && map.at<uchar>(y + i, x + j) == 255 )
-								max = image_in.at<uchar>(y + i, x + j);
-          }
-          k++;
-        }
-        if (map.at<uchar>(x,y) == 255 && max > 0)
-        {
-          image_out.at<uchar>(y, x) = max; 
-          map.at<uchar>(x,y) = 0;
-        }
-    }
+	flag = 1;
+	while (flag==1)
+	{
+		tmp_image = image_out.clone();
+		flag = 0;
+		nbdilate ++;
+		for (x = 0; x < cols - 1; x++)
+		{
+			for (y = 0; y < rows - 1; y++)
+			{
+				max = (uchar)0;
+				k = 0;
+				for (j = -1; j <= 1; j++)
+				{
+					for (i = -1; i <= 1; i++)
+					{
+						if (is_inside(x + i, y + j, cols, rows))
+						{
+							if (my_structuring_element.at<uchar>(k) == 1)
+								if (tmp_image.at<uchar>(x + i, y + j) > max)
+								{
+									max = tmp_image.at<uchar>(x + i, y + j);
+								}
+						}
+						k++;
+						if (max > 0 && map.at<uchar>(x, y) != 0 )
+						{
+							image_out.at<uchar>(x, y) = max;
+							map.at<uchar>(x,y) = 0;
+							flag = 1;
+						}
+					}
+				}
+			}
+		}
+	}
+	printf("%d\n",nbdilate);
   return image_out;
 }
 
@@ -234,10 +250,6 @@ int main(int argc, char** argv )
   int i;
 	
   erode_image = my_erode (image);
-  /*for(i = 0 ; i < 28 ; i++)
-    erode_image = my_erode (erode_image);
-  for(i = 0 ; i < 29 ; i++)
-    map = my_dilate (map);*/
 
 	erode_image = image.clone();
   map = erode_image.clone();
@@ -256,12 +268,11 @@ int main(int argc, char** argv )
 	}
 
 
-  for (i=0; i < nberode; i++)
+  //for (i=0; i < nberode; i++)
 		map = conditional_dilate(map, image, my_structuring_element);
 
   namedWindow("Display Image", WINDOW_AUTOSIZE);
 	imshow("Display Image", map);
-	printf("fin %d\n", nbforme);
 
   while(1)
       waitKey(0);
